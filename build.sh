@@ -93,6 +93,17 @@ elif [[ "${COMPILER}" == clang ]]; then
         CC=clang
     )
 fi
+
+# === KernelSU Integration ===
+if [ ! -d "KernelSU" ]; then
+    git clone https://github.com/tiann/KernelSU
+fi
+
+cd KernelSU
+bash setup.sh ../
+cd ..
+
+# === Build ===
 make "${MAKE[@]}" $CONFIG
 time make -j"$PROCS" "${MAKE[@]}" Image 2>&1 | tee log.txt
 
