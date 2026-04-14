@@ -111,6 +111,9 @@ scripts/config --file out/.config --enable CONFIG_KSU
 scripts/config --file out/.config --enable CONFIG_KPROBES
 scripts/config --file out/.config --enable CONFIG_MODULES
 
+echo "=== CHECK CONFIG ==="
+grep KSU out/.config || echo "KSU NOT FOUND"
+
 # === Build kernel ===
 time make -j"$PROCS" "${MAKE[@]}" Image 2>&1 | tee log.txt
 
