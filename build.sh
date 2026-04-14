@@ -103,8 +103,15 @@ cd KernelSU
 bash setup.sh ../
 cd ..
 
-# === Build ===
+# === Generate config ===
 make "${MAKE[@]}" $CONFIG
+
+# === Enable KernelSU ===
+scripts/config --file out/.config --enable CONFIG_KSU
+scripts/config --file out/.config --enable CONFIG_KPROBES
+scripts/config --file out/.config --enable CONFIG_MODULES
+
+# === Build kernel ===
 time make -j"$PROCS" "${MAKE[@]}" Image 2>&1 | tee log.txt
 
 env
