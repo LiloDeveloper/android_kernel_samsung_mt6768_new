@@ -1,0 +1,28 @@
+name: Build Kernel A31
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout repo
+      uses: actions/checkout@v3
+
+    - name: 🛠️ Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y bc bison flex libssl-dev make zstd lz4 curl
+
+    - name: 🚀 Run build.sh
+      run: |
+        chmod +x build.sh
+        ./build.sh
+
+    - name: 📦 Upload ZIP
+      uses: actions/upload-artifact@v3
+      with:
+        name: kernel
+        path: /tmp/output/*.zip
